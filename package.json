@@ -19,7 +19,7 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "budo": "^9.4.7",
+    "budo": "^11.6.2",
     "cross-env": "^5.0.1"
   },
   "link": true,
