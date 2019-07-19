@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- <meta http-equiv="refresh" content="0; url=examples/"> -->
+    <title>Louis AFrame Experiement</title>
+    <style>html,body{background-color:#030404}</style>
+
+    <meta name="description" content="Logo MXT in Louis Experiement">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- A-FRAME SCRIPTS -->
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@6.0.0/dist/aframe-extras.js"></script>
+
+    <!-- SUPER-HANDS SCRIPTS -->
+    <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script> 
+
+    <!-- PHYSICS SCRIPTS -->
+    <script src="https://unpkg.com/aframe-physics-system@4.0.0/dist/aframe-physics-system.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras@0.1.3/dist/aframe-physics-extras.js"></script>
+
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@2.0.0/dist/aframe-environment-component.js"></script>
+
+  </head>
+  <body>
+
+    <!-- iOS Permission Button -->
+    <div style="position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;">
+      <button id="ios-ask-permission">
+          iOS Permissions
+      </button>
+    </div>
+    
+    <!-- SCENE -->
+    <a-scene light="defaultLightsEnabled: false">
+      
+      <!-- Assets -->
+      <a-asset>
+        <a-asset-item id="logo_MXT" src="_MXT/assets/models/logo_MXT.glb"></a-asset-item>
+        <a-asset-item id="skymap" src="_MXT/assets/images/sky.jpg"></a-asset-item>
+        <a-asset-item id="floor" src="_MXT/assets/images/floor.jpg"></a-asset-item>
+      </a-asset>
+      
+      <!-- Sky and ground environment -->
+      <a-entity id="sky" geometry="primitive:sphere; radius:30; phiLength:360; phiStart:0; thetaLength:90" material="shader:flat; side:back; height:2048; src:#skymap; width:2048"></a-entity>
+      <a-entity id="ground"
+                geometry="primitive: box; width: 12; height: 0.01; depth: 12"
+                material="shader: flat; src: #floor">
+      </a-entity>
+      
+      
+      <!-- Camera Rig -->
+      <a-entity position="0 0 0">
+        <a-camera wasd-controls look-controls >
+            <a-entity cursor="fuse: true; fuseTimeout: 500"
+            position="0 0 -1"
+            geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.01"
+            material="color: white; shader: flat"></a-entity>
+        </a-camera>
+        <a-entity id="rhand" hand-controls="right" super-hands static-body="shape: sphere; sphereRadius: 0.02"></a-entity>
+        <a-entity id="lhand" hand-controls="left" super-hands static-body="shape: sphere; sphereRadius: 0.02"></a-entity>
+      </a-entity>
+
+      <!-- LOGO -->
+      <a-gltf-model src="#logo_MXT" position="0 2 -8" scale="8 8 8"></a-gltf-model>
+
+      <!-- Lights -->
+      <a-entity id="" position="1.844 1.237 -5.973" light="type: point; intensity: 1; angle: 62.36; color: #ffffff" visible=""></a-entity>
+      <a-entity id="" position="-3.575 4.164 -5.412" light="type: point; intensity: 1; angle: 62.36; color: #ffffff" visible=""></a-entity>
+      <a-light type="hemisphere" groundColor="#888" intensity="0.8"></a-light>
+
+      <!-- Raycast testing box -->
+      <a-box position="0.00 0.91115 -1.98489" 
+             event-set__1="_event: mouseleave; material.color: red"
+             event-set__2="_event: click; material.color: white"
+             event-set__3="_event: fusing; material.color: green"
+             material="color: blue"></a-box>
+    </a-scene>
+  </body>
+  
+  <!-- iOS Permission Button -->
+  <script>
+      var perm_button = document.querySelector("#ios-ask-permission");
+      perm_button.addEventListener("click", function(event) {
+        DeviceOrientationEvent.requestPermission();
+      });
+  </script>
+  
+</html>
